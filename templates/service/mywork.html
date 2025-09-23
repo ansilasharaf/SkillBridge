@@ -1,0 +1,30 @@
+{% extends "serviceindex.html" %}
+{% block body %}
+<div class="container mt-4">
+    <h2 class="text-light">My Works</h2>
+    <a href="/myapp/add_work/" class="btn btn-success mb-3">+ Add Work</a>
+
+    <div class="row">
+        {% for work in works %}
+        <div class="col-md-4 mb-3">
+            <div class="card bg-dark text-light shadow border-0">
+                {% if work.photo %}
+                    <img src="{{ work.photo.url }}" class="card-img-top" style="height:200px; object-fit:cover;">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ work.title }}</h5>
+                    <p class="card-text">{{ work.description }}</p>
+                    <p class="text-info">₹ {{ work.price }}</p>
+                    <p class="text-muted">Added: {{ work.date }}</p>
+                    <a href="/myapp/update_work/{{ work.id }}" class="btn btn-warning btn-sm">Edit</a>
+                    <a href="/myapp/delete_work/{{ work.id }}" class="btn btn-danger btn-sm"
+                       onclick="return confirm('Are you sure you want to delete this?')">Delete</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-light">No works added yet.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

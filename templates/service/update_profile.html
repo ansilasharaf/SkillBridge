@@ -1,0 +1,53 @@
+{% extends "serviceindex.html" %}
+{% block body %}
+<div class="container mt-5 d-flex justify-content-center">
+    <div class="card shadow-lg border-0 p-4" style="width: 700px; background:#1e1e2f; border-radius:20px; color:#fff;">
+        <h3 class="text-center mb-4" style="color:#00d4ff;">Update Profile</h3>
+
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label class="form-label">Name</label>
+                <input type="text" name="name" value="{{ profile.name }}" class="form-control bg-dark text-light border-0" required  pattern="[a-zA-Z ]{3,50}">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Phone</label>
+                <input type="text" name="phoneno" value="{{ profile.phoneno }}" class="form-control bg-dark text-light border-0" required pattern="[9876][0-9]{9}">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Place</label>
+                <input type="text" name="place" value="{{ profile.place }}" class="form-control bg-dark text-light border-0" required pattern="[a-zA-Z ]{3,50}">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Post</label>
+                <input type="text" name="post" value="{{ profile.post }}" class="form-control bg-dark text-light border-0" required pattern="[a-zA-Z ]{3,50}">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Pin</label>
+                <input type="text" name="pin" value="{{ profile.pin }}" class="form-control bg-dark text-light border-0" required pattern="[0-9]{6}">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input type="email" name="email" value="{{ profile.email }}" class="form-control bg-dark text-light border-0" required  pattern="[a-z._0-9]{3,50}[@][a-z]{2,10}[.][a-z]{3,15}">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Profile Photo</label><br>
+                {% if profile.photo %}
+                    <img src="{{ profile.photo.url }}" width="100" height="100" class="rounded mb-2" style="object-fit:cover;">
+                {% endif %}
+                <input type="file" name="photo" class="form-control bg-dark text-light border-0" accept="image/*">
+            </div>
+
+            <button type="submit" class="btn btn-info w-100 mt-3" style="border-radius:30px;">Save Changes</button>
+            <a href="/myapp/view_profile/#about" class="btn btn-secondary w-100 mt-2" style="border-radius:30px;">Cancel</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

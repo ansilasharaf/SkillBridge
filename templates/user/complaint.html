@@ -1,0 +1,78 @@
+{% extends "userindex.html" %}
+{% block body %}
+<div class="container mt-4">
+    <h2 class="text-light">My Complaints</h2>
+
+    <!-- Add Complaint Button -->
+    <button class="btn btn-info mb-3" data-bs-toggle="modal" data-bs-target="#complaintModal">
+        + Add Complaint
+    </button>
+
+    <!-- Complaints Table -->
+    <div class="table-responsive">
+        <table class="table table-dark table-striped align-middle">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Complaint</th>
+                    <th>Date</th>
+                    <th>Reply</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for comp in complaints %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ comp.complaint }}</td>
+                    <td>{{ comp.date|date:"M d, Y" }}</td>
+                    <td>
+                        {% if comp.reply %}
+                            {{ comp.reply }}
+                        {% else %}
+                            <span class="text-warning">No reply yet</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="/myapp/delete_complaint/{{ comp.id }}"
+                           class="btn btn-danger btn-sm"
+                           onclick="return confirm('Delete this complaint?')">
+                           Delete
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" class="text-center text-muted">No complaints found</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Modal for Add Complaint -->
+<div class="modal fade" id="complaintModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content bg-dark text-light">
+      <div class="modal-header">
+        <h5 class="modal-title">New Complaint</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <form method="post" action="/myapp/add_complaint/">
+        {% csrf_token %}
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label">Complaint</label>
+            <textarea name="complaint" class="form-control" rows="3" required></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-info">Submit</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

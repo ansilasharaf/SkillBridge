@@ -1,0 +1,168 @@
+{#{% extends "serviceindex.html" %}#}
+{#{% block body %}#}
+{#<div class="container mt-4">#}
+{#    <h2 class="text-light">My Requests</h2>#}
+{##}
+{#    <div class="table-responsive">#}
+{#        <table class="table table-dark table-striped table-hover align-middle">#}
+{#            <thead>#}
+{#                <tr>#}
+{#                    <th>#</th>#}
+{#                    <th>Work</th>#}
+{#                    <th>User</th>#}
+{#                    <th>Details</th>#}
+{#                    <th>Requested On</th>#}
+{#                    <th>Due Date</th>#}
+{#                    <th>Price</th>#}
+{#                    <th>Status</th>#}
+{#                </tr>#}
+{#            </thead>#}
+{#            <tbody>#}
+{#                {% for req in request %}#}
+{#                <tr>#}
+{#                    <td>{{ forloop.counter }}</td>#}
+{#                    <td>{{ req.WORK.title }}</td>#}
+{#                    <td>{{ req.USER.name }}</td>#}
+{#                    <td>{{ req.details }}</td>#}
+{#                    <td>{{ req.date|date:"M d, Y" }}</td>#}
+{#                    <td>{{ req.due_date|date:"M d, Y" }}</td>#}
+{#                    <td>₹ {{ req.price }}</td>#}
+{#                    <td>#}
+{#                        {% if req.status == "Pending" %}#}
+{#                            <a href="" class="btn btn-primary">Accept</a>#}
+{#                            <a href="" class="btn btn-danger">Reject</a>#}
+{#                        {% elif req.status == "Approved" %}#}
+{#                            <span class="badge bg-success">{{ req.status }}</span>#}
+{#                        {% elif req.status == "Rejected" %}#}
+{#                            <span class="badge bg-danger">{{ req.status }}</span>#}
+{#                        {% else %}#}
+{#                            <span class="badge bg-secondary">{{ req.status }}</span>#}
+{#                        {% endif %}#}
+{#                    </td>#}
+{#                </tr>#}
+{#                {% empty %}#}
+{#                <tr>#}
+{#                    <td colspan="8" class="text-center text-muted">No requests found</td>#}
+{#                </tr>#}
+{#                {% endfor %}#}
+{#            </tbody>#}
+{#        </table>#}
+{#    </div>#}
+{#</div>#}
+{#{% endblock %}#}
+
+
+{% extends "serviceindex.html" %}
+{% block body %}
+<div class="container mt-4">
+    <h2 class="text-light">My Requests</h2>
+
+    <div class="table-responsive">
+        <table class="table table-dark table-striped table-hover align-middle">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Work</th>
+                    <th>User</th>
+                    <th>Details</th>
+                    <th>Requested On</th>
+                    <th>Due Date</th>
+                    <th>Price</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for req in requests %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ req.WORK.title }}</td>
+                    <td>{{ req.USER.name }}</td>
+                    <td>{{ req.details }}</td>
+                    <td>{{ req.date|date:"M d, Y" }}</td>
+                    <td>{{ req.due_date|date:"M d, Y" }}</td>
+                    <td>
+                        {% if req.price %}
+                            ₹ {{ req.price }}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if req.status == "pending" %}
+                            <button class="btn btn-primary btn-sm"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#approveModal"
+                                    data-id="{{ req.id }}"
+                                    data-work="{{ req.WORK.title }}">
+                                Accept
+                            </button>
+                            <a href="/myapp/reject_request/{{ req.id }}"
+                               class="btn btn-danger btn-sm"
+                               onclick="return confirm('Reject this request?')">Reject</a>
+                        {% elif req.status == "Approved" %}
+                            <span class="badge bg-success">{{ req.status }}</span>
+                            <a href="/myapp/chat_view_service/{{ req.USER.LOGIN.id }}" class="btn btn-primary">Chat</a>
+                        {% elif req.status == "Rejected" %}
+                            <span class="badge bg-danger">{{ req.status }}</span>
+                        {% else %}
+                            <span class="badge bg-secondary">{{ req.status }}</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="8" class="text-center text-muted">No requests found</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Modal for Approve -->
+<div class="modal fade" id="approveModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content bg-dark text-light">
+      <div class="modal-header">
+        <h5 class="modal-title">Approve Request</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <form method="post" action="/myapp/approve_request/">
+        {% csrf_token %}
+        <div class="modal-body">
+          <input type="hidden" name="request_id" id="requestId">
+
+          <div class="mb-3">
+            <label class="form-label">Work</label>
+            <input type="text" id="workTitle" class="form-control" readonly>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Enter Price</label>
+            <input type="number" name="price" class="form-control" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success">Confirm</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Inline JS -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var approveModal = document.getElementById('approveModal');
+    approveModal.addEventListener('show.bs.modal', function (event) {
+        var button = event.relatedTarget;
+        var reqId = button.getAttribute('data-id');
+        var workTitle = button.getAttribute('data-work');
+
+        document.getElementById('requestId').value = reqId;
+        document.getElementById('workTitle').value = workTitle;
+    });
+});
+</script>
+{% endblock %}

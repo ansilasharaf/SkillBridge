@@ -1,0 +1,215 @@
+{##}
+{#<html lang="en">#}
+{#<head>#}
+{#    <meta charset="UTF-8">#}
+{#    <meta name="viewport" content="width=device-width, initial-scale=1.0">#}
+{#    <title>Skill  Bridge</title>#}
+{#    <link rel="stylesheet" href="../static/login/style.css">#}
+{#</head>#}
+{#<body>#}
+{#    <div class="login-container">#}
+{#        <div class="login-card">#}
+{#            <div class="login-header">#}
+{#                <div class="logo">#}
+{#                    <svg width="40" height="40" viewBox="0 0 40 40" fill="none">#}
+{#                        <rect width="40" height="40" rx="12" fill="#0066CC"/>#}
+{#                        <path d="M12 16l8-4 8 4v12l-8 4-8-4V16z" stroke="white" stroke-width="2" fill="none"/>#}
+{#                        <circle cx="20" cy="20" r="3" fill="white"/>#}
+{#                    </svg>#}
+{#                </div>#}
+{#                <h1>Welcome back</h1>#}
+{#                <p>Sign in to continue your journey</p>#}
+{#                  {% include 'msgalert.html' %}#}
+{#            </div>#}
+{#            #}
+{#            <form class="login-form" id="" method="post" action="/myapp/loginpost/">#}
+{#                {% csrf_token %}#}
+{#                <div class="form-group">#}
+{#                    <input type="text" id="email" name="username" required autocomplete="email" placeholder="Username">#}
+{#                    <label for="email">Username</label>#}
+{#                    <span class="error-message" id="emailError"></span>#}
+{#                </div>#}
+{##}
+{#                <div class="form-group">#}
+{#                    <input type="password" id="password" name="password" required autocomplete="current-password" placeholder="Password">#}
+{#                    <label for="password">Password</label>#}
+{#                    <button type="button" class="password-toggle" id="passwordToggle" aria-label="Toggle password visibility">#}
+{#                        <svg class="eye-icon" width="18" height="18" viewBox="0 0 18 18" fill="none">#}
+{#                            <path d="M9 3C4.5 3 1.05 6.21 0.5 9c.55 2.79 4 6 8.5 6s7.95-3.21 8.5-6c-.55-2.79-4-6-8.5-6zm0 10a4 4 0 110-8 4 4 0 010 8zm0-6.5a2.5 2.5 0 100 5 2.5 2.5 0 000-5z" fill="currentColor"/>#}
+{#                        </svg>#}
+{#                    </button>#}
+{#                    <span class="error-message" id="passwordError"></span>#}
+{#                </div>#}
+{##}
+{#                <div class="form-options">#}
+{#                    <label class="checkbox-wrapper">#}
+{#                        <input type="checkbox" id="remember" name="remember">#}
+{#                        <span class="checkmark">#}
+{#                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">#}
+{#                                <path d="M2 6l2.5 2.5L10 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>#}
+{#                            </svg>#}
+{#                        </span>#}
+{#                        Keep me signed in#}
+{#                    </label>#}
+{#                    <a href="#" class="forgot-link">Forgot password?</a>#}
+{#                </div>#}
+{##}
+{#                <button type="submit" class="login-btn">#}
+{#                    <span class="btn-text">Sign In</span>#}
+{#                    <div class="btn-loader">#}
+{#                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">#}
+{#                            <circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-dasharray="32" stroke-dashoffset="32">#}
+{#                                <animate attributeName="stroke-dashoffset" dur="1s" values="32;0" repeatCount="indefinite"/>#}
+{#                            </circle>#}
+{#                        </svg>#}
+{#                    </div>#}
+{#                </button>#}
+{#            </form>#}
+{##}
+{#            <div class="divider">#}
+{#                <span>or Sign Up</span>#}
+{#            </div>#}
+{##}
+{#            <div class="social-login">#}
+{#               <button type="button" class="social-btn">#}
+{# <a href="/myapp/registration_service/">#}
+{#     Service</a>#}
+{#                </button>#}
+{#                </a>#}
+{##}
+{#                <button type="button" class="social-btn">#}
+{# <a href="/myapp/user_register/">#}
+{#                    User</a>#}
+{#                </button>#}
+{##}
+{#            </div>#}
+{##}
+{##}
+{##}
+{#            <div >#}
+{##}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+{##}
+{#    <script src="../shared/js/form-utils.js"></script>#}
+{#    <script src="../static/login/script.js"></script>#}
+{#</body>#}
+{#</html>#}
+
+
+{##}
+{#<html lang="en">#}
+{#<head>#}
+{#    <meta charset="UTF-8">#}
+{#    <meta name="viewport" content="width=device-width, initial-scale=1.0">#}
+{#    <title>car parking login form</title>#}
+{#    <link rel="stylesheet" href="/static/login/style.css">#}
+{#          <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">#}
+{##}
+{#      <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>#}
+{#      <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>#}
+{#      <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>#}
+{#</head>#}
+{#<body>#}
+{#    <div class="login-container">#}
+{#        <div class="login-card">#}
+{#            <div class="login-header">#}
+{#                <div class="company-logo">#}
+{#                    <div class="logo-icon">SB️</div>#}
+{#                </div>#}
+{#                <h2>SkillBridge</h2>#}
+{#                <p>Please sign in to your account</p>#}
+{#            </div>#}
+{##}
+{#            <form class="login-form" id="loginForm" novalidate action="/myapp/loginpost/" method="post">#}
+{#                        <form class="login-form"   action="/myapp/loginpost/" method="post">#}
+{#                            {% csrf_token %}#}
+{#{% include 'msgalert.html' %}#}
+{#                <div class="form-group">#}
+{#                    <div class="input-wrapper">#}
+{#                        <input type="text"  name="username" required >#}
+{#                        <label for="email">username</label>#}
+{#                        <span class="input-border"></span>#}
+{#                    </div>#}
+{#                </div>#}
+{##}
+{#                <div class="form-group">#}
+{#                    <div class="input-wrapper password-wrapper">#}
+{#                        <input type="password" id="password" name="password" required >#}
+{#                        <label for="password">Password</label>#}
+{#                        <button type="button" class="password-toggle"  aria-label="Toggle password visibility">#}
+{#                            <span class="toggle-icon"></span>#}
+{#                        </button>#}
+{#                        <span class="input-border"></span>#}
+{#                    </div>#}
+{#                    <span class="error-message" id="passwordError"></span>#}
+{#                </div>#}
+{##}
+{#                <div class="form-options">#}
+{#                    <div class="remember-wrapper">#}
+{#                        <input type="checkbox" id="remember" name="remember">#}
+{#                        <label for="remember" class="checkbox-label">#}
+{#                            <span class="checkbox-custom"></span>#}
+{#                            Keep me signed in#}
+{#                        </label>#}
+{#                    </div>#}
+{#                    <a href="#" class="forgot-password">Reset password</a>#}
+{#                </div>#}
+{##}
+{#                <button type="submit" class="login-btn">#}
+{#                    <span class="btn-text">Sign In</span>#}
+{##}
+{#                </button>#}
+{##}
+{#                           Sign Up  <a href="#" class="forgot-password">User  </a>#}
+{#                             <a href="/myapp/registration_service/" class="forgot-password"> Service</a>#}
+{#            </form>#}
+{##}
+{##}
+{#    <script src="../../shared/js/form-utils.js"></script>#}
+{#    <script src="/static/script.js"></script>#}
+{#</body>#}
+{#</html>#}
+
+
+{#<!DOCTYPE html>#}
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>RegistrationForm_v2 by Colorlib</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<!-- MATERIAL DESIGN ICONIC FONT -->
+		<link rel="stylesheet" href="../static/log/fonts/material-design-iconic-font/css/material-design-iconic-font.min.css">
+
+		<!-- STYLE CSS -->
+		<link rel="stylesheet" href="../static/log/css/style.css">
+	</head>
+
+	<body>
+
+		<div class="wrapper" style="background-image: url('../static/bg.jpg');background-repeat: no-repeat;background-size: cover">
+			<div class="inner">
+				<form action="/myapp/loginpost/" method="post"> {% csrf_token %}
+					<h3>Login Form</h3>
+
+					<div class="form-wrapper">
+						<label for="">Username</label>
+						<input type="text" name="username" class="form-control">
+					</div>
+					<div class="form-wrapper">
+						<label for="">Password</label>
+						<input type="password" name="password" class="form-control">
+					</div>
+
+
+					<button>Login Now</button>
+                    <a href="/myapp/user_register/" class="forgot-password">User  </a><br><br>
+                             <a href="/myapp/registration_service/" class="forgot-password"> Service</a>
+				</form>
+			</div>
+		</div>
+
+	</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+</html>
