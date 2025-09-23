@@ -1,0 +1,81 @@
+{% extends "adminindex.html" %}
+{% block body %}
+<div class="container mt-4">
+    <h2 class="text-light">Complaints</h2>
+
+    <!-- Complaints Table -->
+    <div class="table-responsive">
+        <table class="table table-dark table-striped align-middle">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>User</th>
+                    <th>Complaint</th>
+                    <th>Date</th>
+                    <th>Reply</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for comp in complaints %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ comp.LOGIN.first_name }}</td>
+                    <td>{{ comp.complaint }}</td>
+                    <td>{{ comp.date|date:"M d, Y" }}</td>
+                    <td>
+                        {% if comp.reply == 'pending' %}
+                            <span class="text-warning">No reply yet</span>
+
+                        {% else %}
+                            <span class="badge bg-success">{{ comp.reply }}</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if  comp.reply == 'pending' %}
+                        <!-- Reply Button -->
+                        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#replyModal{{ comp.id }}">
+                            Reply
+                        </button>
+                        {% endif %}
+
+                    </td>
+                </tr>
+
+                <!-- Reply Modal -->
+                <div class="modal fade" id="replyModal{{ comp.id }}" tabindex="-1" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content bg-dark text-light">
+                      <div class="modal-header">
+                        <h5 class="modal-title">Reply to Complaint</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                      </div>
+                      <form method="post" action="/myapp/reply_complaint/{{ comp.id }}/">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                          <p><strong>Complaint:</strong> {{ comp.complaint }}</p>
+                          <div class="mb-3">
+                            <label class="form-label">Reply</label>
+                            <textarea name="reply" class="form-control" rows="3" required></textarea>
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="submit" class="btn btn-success">Send Reply</button>
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                {% empty %}
+
+
+                <tr>
+                    <td colspan="6" class="text-center text-muted">No complaints found</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

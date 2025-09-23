@@ -1,0 +1,91 @@
+
+
+{% extends "userindex.html" %}
+{% block body %}
+<div class="container mt-4">
+    <h2 class="text-light">Works</h2>
+
+    <div class="row">
+        {% for work in works %}
+        <div class="col-md-4 mb-3">
+            <div class="card bg-dark text-light shadow border-0">
+                {% if work.photo %}
+                    <img src="{{ work.photo.url }}" class="card-img-top" style="height:200px; object-fit:cover;">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ work.title }}</h5>
+                    <p class="card-text">{{ work.description }}</p>
+                    <p class="card-text">{{ work.SERVICE.name }}</p>
+                    <p class="text-info">₹ {{ work.price }}</p>
+                    <p class="text-muted">Added: {{ work.date }}</p>
+
+                    <!-- Book Button triggers modal -->
+                    <button class="btn btn-info btn-sm"
+                            data-bs-toggle="modal"
+                            data-bs-target="#bookModal"
+                            data-workid="{{ work.id }}"
+                            data-title="{{ work.title }}">
+                        Book Now
+                    </button>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-light">No works added yet.</p>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="bookModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content bg-dark text-light">
+      <div class="modal-header">
+        <h5 class="modal-title">Book Work</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <form method="post" action="/myapp/request_work/">
+        {% csrf_token %}
+        <div class="modal-body">
+          <input type="hidden" name="work_id" id="workId">
+
+          <div class="mb-3">
+            <label class="form-label">Work Title</label>
+            <input type="text" id="workTitle" class="form-control" readonly>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Your Note / Requirement</label>
+            <textarea name="details" class="form-control" rows="3" required></textarea>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Preferred Date</label>
+            <input type="date" name="preferred_date" class="form-control" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-info">Confirm Booking</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Inline JavaScript -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var bookModal = document.getElementById('bookModal');
+    bookModal.addEventListener('show.bs.modal', function (event) {
+        var button = event.relatedTarget; // Button that triggered modal
+        var workId = button.getAttribute('data-workid');
+        var workTitle = button.getAttribute('data-title');
+
+        // Fill modal form fields
+        document.getElementById('workId').value = workId;
+        document.getElementById('workTitle').value = workTitle;
+    });
+});
+</script>
+{% endblock %}

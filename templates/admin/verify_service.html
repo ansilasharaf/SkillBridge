@@ -1,0 +1,77 @@
+
+{% extends 'adminindex.html' %}
+{% block body %}
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+
+<div class="container mt-4">
+    <h2 class="mb-3">Service Providers</h2>
+    <table id="serviceTable" class="display">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Login</th>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Place</th>
+                <th>Post</th>
+                <th>Pin</th>
+                <th>Email</th>
+                <th>Photo</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for service in services %}
+            <tr>
+                <td>{{ service.id }}</td>
+                <td>{{ service.LOGIN.username }}</td>
+                <td>{{ service.name }}</td>
+                <td>{{ service.phoneno }}</td>
+                <td>{{ service.place }}</td>
+                <td>{{ service.post }}</td>
+                <td>{{ service.pin }}</td>
+                <td>{{ service.email }}</td>
+                <td>
+                    {% if service.photo %}
+                        <img src="{{ service.photo.url }}" width="60" height="60" style="object-fit:cover; border-radius:8px;">
+                    {% else %}
+                        No Photo
+                    {% endif %}
+                </td>
+                <td>
+                    {% if service.status == "pending" %}
+                        <span style="color: orange; font-weight: bold;">{{ service.status }}</span>
+                    {% elif service.status == "accepted" %}
+                        <span style="color: green; font-weight: bold;">{{ service.status }}</span>
+                    {% elif service.status == "rejected" %}
+                        <span style="color: red; font-weight: bold;">{{ service.status }}</span>
+                    {% else %}
+                        {{ service.status }}
+                    {% endif %}
+                </td>
+                <td>
+                    {% if service.status == "pending" %}
+                        <a href="/myapp/accept_service/{{ service.id }}" class="btn btn-success btn-sm">Accept</a>
+                        <a href="/myapp/reject_service/{{ service.id }}" class="btn btn-danger btn-sm">Reject</a>
+                    {% else %}
+                        <em>No action</em>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#serviceTable').DataTable();
+    });
+</script>
+
+{% endblock %}

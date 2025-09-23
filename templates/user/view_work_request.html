@@ -1,0 +1,52 @@
+{% extends "userindex.html" %}
+{% block body %}
+<div class="container mt-4">
+    <h2 class="text-light">My Requests</h2>
+
+    <div class="table-responsive">
+        <table class="table table-dark table-striped table-hover align-middle">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Work</th>
+                    <th>Srvice</th>
+                    <th>Details</th>
+                    <th>Requested On</th>
+                    <th>Due Date</th>
+                    <th>Price</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for req in request %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ req.WORK.title }}</td>
+                    <td>{{ req.WORK.SERVICE.name }}</td>
+                    <td>{{ req.details }}</td>
+                    <td>{{ req.date|date:"M d, Y" }}</td>
+                    <td>{{ req.due_date|date:"M d, Y" }}</td>
+                    <td>₹ {{ req.price }}</td>
+                    <td>
+                        {% if req.status == "Pending" %}
+                            <span class="badge bg-warning text-dark">{{ req.status }}</span>
+                        {% elif req.status == "Approved" %}
+                            <span class="badge bg-success">{{ req.status }}</span>
+                            <a href="/myapp/chat_view_service/{{ req.WORK.SERVICE.LOGIN.id }}" class="btn btn-primary">Chat</a>
+                        {% elif req.status == "Rejected" %}
+                            <span class="badge bg-danger">{{ req.status }}</span>
+                        {% else %}
+                            <span class="badge bg-secondary">{{ req.status }}</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="8" class="text-center text-muted">No requests found</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

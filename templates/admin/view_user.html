@@ -1,0 +1,56 @@
+{% extends 'adminindex.html' %}
+{% block body %}
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+
+<div class="container mt-4">
+    <h2 class="mb-3">User Details</h2>
+    <table id="userTable" class="display">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Login</th>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Place</th>
+                <th>Post</th>
+                <th>Pin</th>
+                <th>Email</th>
+                <th>Photo</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.LOGIN.username }}</td>
+                <td>{{ user.name }}</td>
+                <td>{{ user.phoneno }}</td>
+                <td>{{ user.place }}</td>
+                <td>{{ user.post }}</td>
+                <td>{{ user.pin }}</td>
+                <td>{{ user.email }}</td>
+                <td>
+                    {% if user.photo %}
+                        <img src="{{ user.photo.url }}" width="60" height="60" style="object-fit:cover; border-radius:8px;">
+                    {% else %}
+                        No Photo
+                    {% endif %}
+                </td>
+                <td>{{ user.status }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#userTable').DataTable();
+    });
+</script>
+{% endblock %}
