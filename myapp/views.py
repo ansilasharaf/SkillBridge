@@ -291,6 +291,22 @@ def service_view_works_request(request):
     return render(request, "service/view_work_request.html", {"requests": works})
 
 
+@login_required(login_url='/myapp/')
+def service_view_feedback(request):
+
+    works = Feedback_Table.objects.filter(SERVICE__LOGIN__id=request.user.id)
+
+    return render(request, "service/view_feedback.html", {"requests": works})
+
+
+@login_required(login_url='/myapp/')
+def admin_view_feedback(request,id):
+
+    works = Feedback_Table.objects.filter(SERVICE__id=id)
+
+    return render(request, "admin/view_feedback.html", {"requests": works})
+
+
 
 @login_required(login_url='/myapp/')
 def approve_request(request):
@@ -384,6 +400,34 @@ def user_view_works_request(request):
     return render(request, "user/view_work_request.html", {"request": works})
 
 
+
+@login_required(login_url='/myapp/')
+def send_feedback(request,id):
+    request.session['rid']=id
+
+
+    return render(request, "user/send_feedback.html")
+
+
+
+
+@login_required(login_url='/myapp/')
+def send_feedback_post(request):
+    id=request.session['rid']
+    rating=request.POST['rating']
+    feedback=request.POST['feedback']
+    w=Request_Table.objects.get(id=id)
+    ob=Feedback_Table()
+    ob.USER=User_Table.objects.get(LOGIN__id=request.user.id)
+    ob.SERVICE= w.WORK.SERVICE
+    ob.feedback= feedback
+    ob.date= datetime.today()
+    ob.rating=rating
+    ob.save()
+
+
+
+    return redirect("/myapp/user_view_works_request/#about")
 
 
 
